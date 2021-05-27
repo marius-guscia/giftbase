@@ -2,12 +2,11 @@
     <h1>
         <%=giftItem.name%>
     </h1>
-    <p>Price: $<%=giftItem.unit_price%>
-    </p>
-    <p>In Stock: <%=giftItem.units_owned%>
+    <a href="/giftitems/<%=giftItem._id%>/edit">Edit Gift Item</a>
+    <a href="/giftitems">All Gift Items</a>
+    <p>Price: $<%=giftItem.unit_price%><br>
+            In Stock: <%=giftItem.units_owned%>
     </p>
     <form action="/giftItems/<%=giftItem._id%>/?_method=DELETE" method="POST">
         <button>Delete</button>
     </form>
-    <a href="/giftItems/<%=giftItem._id%>/edit">Edit Gift Item</a>
-    <a href="/giftItems">All Gift Items</a>

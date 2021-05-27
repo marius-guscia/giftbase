@@ -1,7 +1,7 @@
 <% layout('layouts/boilerplate')%>
     <h1>Gift Items</h1>
-    <a href="/giftCampaigns">Gift Campaigns</a>
-    <a href="/giftItems/new">New Item</a>
+    <a href="/giftcampaigns">Gift Campaigns</a>
+    <a href="/giftitems/new">New Item</a>
     <div>
         <% for (let giftItem of giftItems) {%>
             <div>
@@ -12,8 +12,7 @@
                         </h3>
                         <p>
                             Price: $ <%= giftItem.unit_price%> <br>
-                                In Stock: <%= giftItem.units_owned%>
-
+                                In Stock: <%= giftItem.units_owned%><br>
                         </p>
                         <a href="/giftitems/<%=giftItem._id%>">View Item</a>
                     </div>

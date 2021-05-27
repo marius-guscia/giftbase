@@ -6,6 +6,7 @@
                     <% return convertedDate; } %>
                         <div>
                             <h1>Edit Campaign</h1>
+                            <a href="/giftcampaigns">All Gift Campaigns</a>
                             <div>
                                 <form action="/giftcampaigns/<%=giftCampaign._id%>?_method=PUT" method="POST">
                                     <div>
@@ -42,6 +43,5 @@
                                         <button>Edit Campaign</button>
                                     </div>
                                 </form>
-                                <a href="/giftcampaigns">All Gift Campaigns</a>
                             </div>
                         </div>

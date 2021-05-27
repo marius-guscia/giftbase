@@ -27,14 +27,19 @@ const GiftCampaignSchema = new Schema({
     //     type: Schema.Types.ObjectId,
     //     ref: 'User'
     // },
-    // gift_item: {
-    //     // Reference to added GiftItems' IDs
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'GiftItem'
-    // },
-    // gift_item_count: {
-    //     type: Number,
-    // },
+    contents: [
+        {
+            gift_item: {
+                // Reference to added GiftItems' IDs
+                type: Schema.Types.ObjectId,
+                ref: 'GiftItem'
+            },
+            gift_item_count: {
+                type: Number
+            }
+        }
+    ]
+
 });
 
 // Export

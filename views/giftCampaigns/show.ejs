@@ -2,6 +2,9 @@
     <h1>
         <%=giftCampaign.name%>
     </h1>
+    <a href="/giftcampaigns/<%=giftCampaign._id%>/edit">Edit Gift Campaign</a>
+    <a href="/giftcampaigns">All Gift Campaigns</a>
+
     <p>Status: <%=giftCampaign.status%>
     </p>
     <p>Dispatch Date: <%= (giftCampaign.dispatch_date.getMonth() + 1) + '/' + giftCampaign.dispatch_date.getDate() + '/'
@@ -11,8 +14,28 @@
             + giftCampaign.delivery_date.getFullYear() %>
     </p>
 
-    <form action="/giftCampaigns/<%=giftCampaign._id%>/?_method=DELETE" method="POST">
-        <button>Delete</button>
-    </form>
-    <a href="/giftCampaigns/<%=giftCampaign._id%>/edit">Edit Gift Campaign</a>
-    <a href="/giftCampaigns">All Gift Campaigns</a>
+    <h3>Contents:</h3>
+    <ul>
+        <% for(let campaign of giftCampaign.contents) { %>
+            <li>
+                <%=campaign.gift_item_count%>
+                    <%=campaign.gift_item.name%>
+            </li>
+            <% } %>
+    </ul>
+    <h3>Add Gift Items:</h3>
+    <% for(let giftItem of giftItems) { %>
+        <%=giftItem.name%>
+            <form action="/giftcampaigns/<%=giftCampaign._id%>/add?_method=PUT" method="POST">
+                <input hidden value="<%=giftItem._id%>" name="id" />
+                <button>Add</button>
+            </form>
+
+            <form action="/giftcampaigns/<%=giftCampaign._id%>/remove?_method=DELETE" method="POST">
+                <input hidden value="<%=giftItem._id%>" name="id" /><button>Remove</button>
+            </form>
+            <% } %>
+
+                <form action="/giftCampaigns/<%=giftCampaign._id%>/?_method=DELETE" method="POST">
+                    <button>Delete</button>
+                </form>

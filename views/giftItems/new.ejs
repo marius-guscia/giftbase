@@ -1,6 +1,7 @@
 <% layout('layouts/boilerplate')%>
     <div>
         <h1>New Gift Item</h1>
+        <a href="/giftitems">All Gift Items</a>
         <div>
             <form action="/giftitems" method="POST">
                 <div>
@@ -17,7 +18,7 @@
                         </div>
                     </div>
                     <div>
-                        <label forr="units_owned">In Stock:</label>
+                        <label for="units_owned">In Stock:</label>
                         <div>
                             <span id="basic-addon1">#</span>
                             <input type="text" id="units_owned" name="giftItem[units_owned]" placeholder="0"
@@ -29,5 +30,4 @@
                     <button>Add Gift Item</button>
                 </div>
             </form>
-            <a href="/giftitems">All Gift Items</a>
         </div>
