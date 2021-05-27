@@ -1,0 +1,33 @@
+<% layout('layouts/boilerplate')%>
+    <h1>Gift Campaigns</h1>
+    <a href="/giftItems">Gift Items</a>
+    <a href="/giftcampaigns/new">New Campaign</a>
+    <div>
+        <% for (let giftCampaign of giftCampaigns) {%>
+            <div>
+                <div>
+                    <div>
+                        <h3>
+                            <%= giftCampaign.name%>
+                        </h3>
+                        <p>
+                            Status: <%= giftCampaign.status%>
+                        </p>
+                        <p>
+                            <small>
+                                Dispatch Date: <%= giftCampaign.dispatch_date.getFullYear()+ '/' +
+                                    (giftCampaign.dispatch_date.getMonth()+1)+ '/'
+                                    +(giftCampaign.dispatch_date.getDate())%>
+                            </small><br>
+                            <small>
+                                Delivery Date: <%= giftCampaign.delivery_date.getFullYear()+ '/' +
+                                    (giftCampaign.delivery_date.getMonth()+1)+ '/'
+                                    +(giftCampaign.delivery_date.getDate())%>
+                            </small>
+                        </p>
+                        <a href="/giftcampaigns/<%=giftCampaign._id%>">View Campaign</a>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+    </div>

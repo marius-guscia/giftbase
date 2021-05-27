@@ -1,0 +1,47 @@
+<% layout('layouts/boilerplate')%>
+    <% const dateConverter=(date)=> { %>
+        <% const day=("0" + date.getDate()).slice(-2); %>
+            <% const month=("0" + (date.getMonth() + 1)).slice(-2); %>
+                <% const convertedDate=date.getFullYear() + "-" + (month) + "-" + (day); %>
+                    <% return convertedDate; } %>
+                        <div>
+                            <h1>Edit Campaign</h1>
+                            <div>
+                                <form action="/giftcampaigns/<%=giftCampaign._id%>?_method=PUT" method="POST">
+                                    <div>
+                                        <label for="title">Name:</label>
+                                        <input type="text" name="giftCampaign[name]" id="name" required
+                                            value="<%=giftCampaign.name %> ">
+                                    </div>
+                                    <div>
+                                        <label for="status">Status:</label>
+                                        <select id="status" name="giftCampaign[status]">
+                                            <% for (let status of statuses) { %>
+                                                <option value="<%=status%>" <%=giftCampaign.status===status ? 'selected'
+                                                    : '' %>>
+                                                    <%=status%>
+                                                </option>
+                                                <% } %>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <div>
+                                            <% const dispatch_date_value=dateConverter(giftCampaign.dispatch_date) %>
+                                                <label for="dispatch_date">Dispatch Date:</label>
+                                                <input type="date" value="<%=dispatch_date_value%>"
+                                                    name="giftCampaign[dispatch_date]" id="dispatch_date">
+                                        </div>
+                                        <div>
+                                            <% const delivery_date_value=dateConverter(giftCampaign.delivery_date) %>
+                                                <label for="delivery_date">Delivery Date:</label>
+                                                <input type="date" value="<%=delivery_date_value%>"
+                                                    name="giftCampaign[delivery_date]" id="delivery_date">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <button>Edit Campaign</button>
+                                    </div>
+                                </form>
+                                <a href="/giftcampaigns">All Gift Campaigns</a>
+                            </div>
+                        </div>

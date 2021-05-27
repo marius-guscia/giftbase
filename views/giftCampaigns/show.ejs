@@ -1,0 +1,18 @@
+<% layout('layouts/boilerplate')%>
+    <h1>
+        <%=giftCampaign.name%>
+    </h1>
+    <p>Status: <%=giftCampaign.status%>
+    </p>
+    <p>Dispatch Date: <%= (giftCampaign.dispatch_date.getMonth() + 1) + '/' + giftCampaign.dispatch_date.getDate() + '/'
+            + giftCampaign.dispatch_date.getFullYear()%>
+    </p>
+    <p>Delivery Date: <%=(giftCampaign.delivery_date.getMonth() + 1) + '/' + giftCampaign.delivery_date.getDate() + '/'
+            + giftCampaign.delivery_date.getFullYear() %>
+    </p>
+
+    <form action="/giftCampaigns/<%=giftCampaign._id%>/?_method=DELETE" method="POST">
+        <button>Delete</button>
+    </form>
+    <a href="/giftCampaigns/<%=giftCampaign._id%>/edit">Edit Gift Campaign</a>
+    <a href="/giftCampaigns">All Gift Campaigns</a>

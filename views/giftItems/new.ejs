@@ -1,0 +1,33 @@
+<% layout('layouts/boilerplate')%>
+    <div>
+        <h1>New Gift Item</h1>
+        <div>
+            <form action="/giftitems" method="POST">
+                <div>
+                    <label for=" title">Name:</label>
+                    <input type="text" name="giftItem[name]" id="name" required>
+                </div>
+                <div>
+                    <div>
+                        <label for="unit_price">Gift Price:</label>
+                        <div>
+                            <span id="basic-addon1">$</span>
+                            <input type="text" id="unit_price" name="giftItem[unit_price]" placeholder="0.00"
+                                aria-label="unit_price" aria-describedby="unit_price-label" required>
+                        </div>
+                    </div>
+                    <div>
+                        <label forr="units_owned">In Stock:</label>
+                        <div>
+                            <span id="basic-addon1">#</span>
+                            <input type="text" id="units_owned" name="giftItem[units_owned]" placeholder="0"
+                                aria-label="units_owned" aria-describedby="units_owned-label" required>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <button>Add Gift Item</button>
+                </div>
+            </form>
+            <a href="/giftitems">All Gift Items</a>
+        </div>
