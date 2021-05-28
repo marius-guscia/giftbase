@@ -1,12 +1,27 @@
 <% layout('layouts/boilerplate')%>
-    <h1>
-        <%=giftItem.name%>
-    </h1>
-    <a href="/giftitems/<%=giftItem._id%>/edit">Edit Gift Item</a>
-    <a href="/giftitems">All Gift Items</a>
-    <p>Price: $<%=giftItem.unit_price%><br>
-            In Stock: <%=giftItem.units_owned%>
-    </p>
-    <form action="/giftItems/<%=giftItem._id%>/?_method=DELETE" method="POST">
-        <button>Delete</button>
-    </form>
+    <div class="row">
+        <div class="col-4 offset-4">
+            <div class="card">
+                <img src="" class="card-img-top" alt="">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <%=giftItem.name%>
+                    </h5>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Price: $<%=giftItem.unit_price%>
+                    </li>
+                    <li class="list-group-item">In Stock: <%=giftItem.units_owned%>
+                    </li>
+                </ul>
+                <div class="card-body">
+
+                    <a class="card-link btn btn-success" href="/giftitems/<%=giftItem._id%>/edit">Edit</a>
+                    <form class="d-inline" action="/giftItems/<%=giftItem._id%>/?_method=DELETE" method="POST">
+                        <button class="card-link btn btn-danger">Delete</button>
+                    </form>
+                </div>
+                <div class="card-footer">
+                </div>
+            </div>
+        </div>

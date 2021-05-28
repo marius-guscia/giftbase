@@ -1,34 +1,37 @@
 <% layout('layouts/boilerplate')%>
-    <div>
-        <h1>New Campaign</h1>
-        <a href="/giftcampaigns">All Campaigns</a>
-        <div>
+    <div class="row">
+        <h1 class="text-center">New Campaign</h1>
+        <div class="col-6 offset-3">
             <form action="/giftcampaigns" method="POST">
-                <div>
-                    <label for="title">Name:</label>
-                    <input type="text" name="giftCampaign[name]" id="name" required>
+                <div class="mb-3">
+                    <label class="form-label" for="title">Name:</label>
+                    <input class="form-control" type="text" name="giftCampaign[name]" id="name" required>
                 </div>
-                <div>
-                    <label for="status">Status:</label>
-                    <select id="status" name="giftCampaign[status]">
+                <div class="mb-3">
+                    <label class="form-label" for="status">Status:</label>
+                    <select class="form-control" id="status" name="giftCampaign[status]">
                         <option>Preparing</option>
                         <option>Ready</option>
                         <option>Dispatched</option>
                     </select>
                 </div>
-                <div>
-                    <div>
-                        <label for="dispatch_date">Dispatch Date:</label>
-                        <input type="date" value="2020-06-01" name="giftCampaign[dispatch_date]" id="dispatch_date">
+                <div class="mb-3">
+                    <div class="mb-3">
+                        <label class="form-label" for="dispatch_date">Dispatch Date:</label>
+                        <input class="form-control" type="date" value="2020-06-01" name="giftCampaign[dispatch_date]"
+                            id="dispatch_date">
                     </div>
                     <div>
-                        <label for="delivery_date">Delivery Date:</label>
-                        <input type="date" value="2020-06-10" name="giftCampaign[delivery_date]" id="delivery_date">
+                        <label class="form-label" for="delivery_date">Delivery Date:</label>
+                        <input class="form-control" type="date" value="2020-06-10" name="giftCampaign[delivery_date]"
+                            id="delivery_date">
                     </div>
                 </div>
-                <div>
-                    <button>Add Campaign</button>
+                <div class="mb-3 d-flex justify-content-between">
+                    <a class="btn btn-secondary" href="/giftcampaigns">Back</a>
+                    <button class="btn btn-success">Add Campaign</button>
                 </div>
+
             </form>
         </div>
     </div>

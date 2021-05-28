@@ -1,35 +1,37 @@
 <% layout('layouts/boilerplate')%>
-    <div>
-        <h1>Edit Gift Item</h1>
-        <a href="/giftitems/<%=giftItem._id%>">Back to Gift Item</a>
-        <a href="/giftitems">All Gift Items</a>
-        <div>
-            <form action="/giftitems/<%=giftItem._id%>?_method=PUT" method="POST">
-                <div>
-                    <label for="title">Name:</label>
-                    <input type="text" name="giftItem[name]" id="name" required value="<%=giftItem.name%>">
-                </div>
-                <div>
+    <div class="row">
+        <h1 class="text-center">Edit Gift Item</h1>
+        <div class="col-4 offset-4">
+            <div>
+                <form action="/giftitems/<%=giftItem._id%>?_method=PUT" method="POST">
+                    <div class="mb-3">
+                        <label class="form-label" for="title">Name:</label>
+                        <input class="form-control" type="text" name="giftItem[name]" id="name" required
+                            value="<%=giftItem.name%>">
+                    </div>
                     <div>
-                        <label for="unit_price">Gift Price:</label>
-                        <div>
-                            <span id="basic-addon1">$</span>
-                            <input type="text" id="unit_price" name="giftItem[unit_price]" placeholder="0.00"
-                                aria-label="unit_price" aria-describedby="unit_price-label" required
+                        <label class="form-label" for="unit_price">Gift Price:</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">$</span>
+                            <input class="form-control" type="text" id="unit_price" name="giftItem[unit_price]"
+                                placeholder="0.00" aria-label="unit_price" aria-describedby="unit_price-label" required
                                 value="<%=giftItem.unit_price%>">
                         </div>
                     </div>
-                    <div>
-                        <label for="units_owned">Add to Stock:</label>
-                        <div>
-                            <span id="basic-addon1">#</span>
-                            <input type="text" id="units_owned" name="giftItem[units_added]" placeholder="0"
-                                aria-label="units_owned" aria-describedby="units_owned-label" required value="0">
+                    <div class="mb-3">
+                        <label class="form-label" for="units_owned">Add to Stock:</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">#</span>
+                            <input class="form-control" type="text" id="units_owned" name="giftItem[units_added]"
+                                placeholder="0" aria-label="units_owned" aria-describedby="units_owned-label" required
+                                value="0">
                         </div>
                     </div>
-                </div>
-                <div>
-                    <button>Edit Gift Item</button>
-                </div>
+            </div>
+            <div class="mb-3 d-flex justify-content-between">
+                <a class="btn btn-secondary" href="/giftitems/<%=giftItem._id%>">Back</a>
+                <button class="btn btn-success">Edit</button>
+            </div>
             </form>
         </div>
+    </div>

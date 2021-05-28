@@ -1,41 +1,92 @@
 <% layout('layouts/boilerplate')%>
-    <h1>
-        <%=giftCampaign.name%>
-    </h1>
-    <a href="/giftcampaigns/<%=giftCampaign._id%>/edit">Edit Gift Campaign</a>
-    <a href="/giftcampaigns">All Gift Campaigns</a>
+    <div class="row mb-3">
+        <div class="col-6 offset-3">
+            <div class="card">
+                <img src="" class="card-img-top" alt="">
+                <div class="card-body">
+                    <h3 class="card-title mb-3 text-center">
+                        <%=giftCampaign.name%>
+                    </h3>
+                    <div class="card-text">
+                        <% for(let campaign of giftCampaign.contents) { %>
+                            <div class="card container mb-3">
+                                <div class="card-body row d-flex align-items-center">
+                                    <p class="card-title col-6 mb-0">
+                                        <%=campaign.gift_item.name%>
+                                    </p>
+                                    <p class="card-text text-end col-2 mb-0">
+                                        <%=campaign.gift_item_count%> x
+                                    </p>
+                                    <p class="card-text col-2 mb-0">
+                                        $<%=campaign.gift_item.unit_price%>
+                                    </p>
+                                    <form class="d-inline col-1"
+                                        action="/giftcampaigns/<%=giftCampaign._id%>/add?_method=PUT" method="POST">
+                                        <input hidden value="<%=campaign.gift_item._id%>" name="id" />
+                                        <button class="btn btn-success btn-sm"><i class="fas fa-plus"></i></button>
+                                    </form>
+                                    <form class="d-inline col-1"
+                                        action="/giftcampaigns/<%=giftCampaign._id%>/remove?_method=DELETE"
+                                        method="POST">
+                                        <input hidden value="<%=campaign.gift_item._id%>" name="id" />
+                                        <button class="btn btn-danger btn-sm"><i class="fas fa-minus"></i></button>
+                                    </form>
+                                </div>
+                            </div>
+                            <% } %>
+                    </div>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Status: <%=giftCampaign.status%>
+                    </li>
+                    <li class="list-group-item text-muted">Dispatch Date: <%= (giftCampaign.dispatch_date.getMonth() +
+                            1) + '/' + giftCampaign.dispatch_date.getDate() + '/' +
+                            giftCampaign.dispatch_date.getFullYear()%>
+                    </li>
+                    <li class="list-group-item text-muted">Delivery Date:
+                        <%=(giftCampaign.delivery_date.getMonth() + 1) + '/' + giftCampaign.delivery_date.getDate()
+                            + '/' + giftCampaign.delivery_date.getFullYear() %>
+                    </li>
+                </ul>
+                <div class="card-body">
+                    <a class="card-link btn btn-success" href="/giftcampaigns/<%=giftCampaign._id%>/edit">Edit</a>
 
-    <p>Status: <%=giftCampaign.status%>
-    </p>
-    <p>Dispatch Date: <%= (giftCampaign.dispatch_date.getMonth() + 1) + '/' + giftCampaign.dispatch_date.getDate() + '/'
-            + giftCampaign.dispatch_date.getFullYear()%>
-    </p>
-    <p>Delivery Date: <%=(giftCampaign.delivery_date.getMonth() + 1) + '/' + giftCampaign.delivery_date.getDate() + '/'
-            + giftCampaign.delivery_date.getFullYear() %>
-    </p>
+                    <form class="d-inline" action="/giftCampaigns/<%=giftCampaign._id%>/?_method=DELETE" method="POST">
+                        <button class="card-link btn btn-danger">Delete</button>
+                    </form>
+                </div>
+                <div class="card-footer">
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <h3>Contents:</h3>
-    <ul>
-        <% for(let campaign of giftCampaign.contents) { %>
-            <li>
-                <%=campaign.gift_item_count%>
-                    <%=campaign.gift_item.name%>
-            </li>
+    <h3 class="mb-3">Add Gift Items:</h3>
+    <div class="row mb-3">
+        <% for(let giftItem of giftItems) { %>
+            <div class="col-sm-6 col-md-4 col-lg-2">
+                <div class="card mb-3">
+                    <img src="" class="card-img-top" alt="">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">
+                            <%=giftItem.name%>
+                        </h5>
+                        <p class="card-text">Price: $<%=giftItem.unit_price%>
+                        </p>
+                        <div>
+                            <form class="d-inline" action="/giftcampaigns/<%=giftCampaign._id%>/add?_method=PUT"
+                                method="POST">
+                                <input hidden value="<%=giftItem._id%>" name="id" />
+                                <button class="btn btn-success"><i class="fas fa-plus"></i></button>
+                            </form>
+                            <form class="d-inline" action="/giftcampaigns/<%=giftCampaign._id%>/remove?_method=DELETE"
+                                method="POST">
+                                <input hidden value="<%=giftItem._id%>" name="id" />
+                                <button class="btn btn-danger d-none"><i class="fas fa-minus"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <% } %>
-    </ul>
-    <h3>Add Gift Items:</h3>
-    <% for(let giftItem of giftItems) { %>
-        <%=giftItem.name%>
-            <form action="/giftcampaigns/<%=giftCampaign._id%>/add?_method=PUT" method="POST">
-                <input hidden value="<%=giftItem._id%>" name="id" />
-                <button>Add</button>
-            </form>
-
-            <form action="/giftcampaigns/<%=giftCampaign._id%>/remove?_method=DELETE" method="POST">
-                <input hidden value="<%=giftItem._id%>" name="id" /><button>Remove</button>
-            </form>
-            <% } %>
-
-                <form action="/giftCampaigns/<%=giftCampaign._id%>/?_method=DELETE" method="POST">
-                    <button>Delete</button>
-                </form>
+    </div>

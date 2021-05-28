@@ -1,31 +1,33 @@
 <% layout('layouts/boilerplate')%>
     <h1>Gift Campaigns</h1>
-    <a href="/giftitems">Gift Items</a>
-    <a href="/giftcampaigns/new">New Campaign</a>
-    <div>
+    <a class="btn btn-success" href="/giftcampaigns/new">New Campaign</a>
+    <div class="row mt-3">
         <% for (let giftCampaign of giftCampaigns) {%>
-            <div>
-                <div>
-                    <div>
-                        <h3>
-                            <%= giftCampaign.name%>
-                        </h3>
-                        <p>
-                            Status: <%= giftCampaign.status%>
-                        </p>
-                        <p>
-                            <small>
-                                Dispatch Date: <%= giftCampaign.dispatch_date.getFullYear()+ '/' +
-                                    (giftCampaign.dispatch_date.getMonth()+1)+ '/'
-                                    +(giftCampaign.dispatch_date.getDate())%>
-                            </small><br>
-                            <small>
-                                Delivery Date: <%= giftCampaign.delivery_date.getFullYear()+ '/' +
-                                    (giftCampaign.delivery_date.getMonth()+1)+ '/'
-                                    +(giftCampaign.delivery_date.getDate())%>
-                            </small>
-                        </p>
-                        <a href="/giftcampaigns/<%=giftCampaign._id%>">View Campaign</a>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="card mb-3">
+                    <div class="row mb-3">
+                        <div class="card-body m-2 text-center">
+                            <h5 class="card-title">
+                                <%= giftCampaign.name%>
+                            </h5>
+                            <p class="card-text">
+                                Status: <%= giftCampaign.status%>
+                            </p>
+                            <p class="card-text">
+                                <small class="text-muted">
+                                    Dispatch Date: <%= giftCampaign.dispatch_date.getFullYear()+ '/' +
+                                        (giftCampaign.dispatch_date.getMonth()+1)+ '/'
+                                        +(giftCampaign.dispatch_date.getDate())%>
+                                </small><br>
+                                <small class="text-muted">
+                                    Delivery Date: <%= giftCampaign.delivery_date.getFullYear()+ '/' +
+                                        (giftCampaign.delivery_date.getMonth()+1)+ '/'
+                                        +(giftCampaign.delivery_date.getDate())%>
+                                </small>
+                            </p>
+                            <a class="btn btn-primary" href="/giftcampaigns/<%=giftCampaign._id%>">View
+                                Campaign</a>
+                        </div>
                     </div>
                 </div>
             </div>

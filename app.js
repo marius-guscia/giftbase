@@ -47,6 +47,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Gift Campaign statuses
 const statuses = ['Preparing', 'Ready', 'Dispatched'];
 
+// Route for redering HOME PAGE
+app.get('/', (req, res) => {
+    res.render('index')
+})
+
 // GIFT ITEMS
 
 // Route for redering Gift Items
