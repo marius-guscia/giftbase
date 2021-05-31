@@ -3,11 +3,14 @@
         <h1 class="text-center">Edit Gift Item</h1>
         <div class="col-4 offset-4">
             <div>
-                <form action="/giftitems/<%=giftItem._id%>?_method=PUT" method="POST">
+                <form action="/giftitems/<%=giftItem._id%>?_method=PUT" method="POST" novalidate class="validated-form">
                     <div class="mb-3">
                         <label class="form-label" for="title">Name:</label>
                         <input class="form-control" type="text" name="giftItem[name]" id="name" required
                             value="<%=giftItem.name%>">
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
                     </div>
                     <div>
                         <label class="form-label" for="unit_price">Gift Price:</label>
@@ -16,15 +19,21 @@
                             <input class="form-control" type="text" id="unit_price" name="giftItem[unit_price]"
                                 placeholder="0.00" aria-label="unit_price" aria-describedby="unit_price-label" required
                                 value="<%=giftItem.unit_price%>">
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label" for="units_owned">Add to Stock:</label>
+                        <label class="form-label" for="units_owned">In Stock:</label>
                         <div class="input-group mb-3">
                             <span class="input-group-text">#</span>
-                            <input class="form-control" type="text" id="units_owned" name="giftItem[units_added]"
+                            <input class="form-control" type="text" id="units_owned" name="giftItem[units_owned]"
                                 placeholder="0" aria-label="units_owned" aria-describedby="units_owned-label" required
                                 value="0">
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
                         </div>
                     </div>
             </div>

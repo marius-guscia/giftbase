@@ -7,15 +7,19 @@
                         <div class="row">
                             <h1 class="text-center">Edit Campaign</h1>
                             <div class="col-4 offset-4">
-                                <form action="/giftcampaigns/<%=giftCampaign._id%>?_method=PUT" method="POST">
+                                <form action="/giftcampaigns/<%=giftCampaign._id%>?_method=PUT" method="POST" novalidate
+                                    class="validated-form">
                                     <div class="mb-3">
                                         <label class="form-label" for="title">Name:</label>
                                         <input class="form-control" type="text" name="giftCampaign[name]" id="name"
                                             required value="<%=giftCampaign.name %> ">
+                                        <div class="valid-feedback">
+                                            Looks good!
+                                        </div>
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label" for="status">Status:</label>
-                                        <select class="form-control" id="status" name="giftCampaign[status]">
+                                        <select class="form-control" id="status" name="giftCampaign[status]" required>
                                             <% for (let status of statuses) { %>
                                                 <option value="<%=status%>" <%=giftCampaign.status===status ? 'selected'
                                                     : '' %>>
@@ -23,19 +27,28 @@
                                                 </option>
                                                 <% } %>
                                         </select>
+                                        <div class="valid-feedback">
+                                            Looks good!
+                                        </div>
                                     </div>
                                     <div class="mb-3">
                                         <div class="mb-3">
                                             <% const dispatch_date_value=dateConverter(giftCampaign.dispatch_date) %>
                                                 <label class="form-label" for="dispatch_date">Dispatch Date:</label>
                                                 <input class="form-control" type="date" value="<%=dispatch_date_value%>"
-                                                    name="giftCampaign[dispatch_date]" id="dispatch_date">
+                                                    name="giftCampaign[dispatch_date]" id="dispatch_date" required>
+                                                <div class="valid-feedback">
+                                                    Looks good!
+                                                </div>
                                         </div>
                                         <div>
                                             <% const delivery_date_value=dateConverter(giftCampaign.delivery_date) %>
                                                 <label class="form-label" for="delivery_date">Delivery Date:</label>
                                                 <input class="form-control" type="date" value="<%=delivery_date_value%>"
-                                                    name="giftCampaign[delivery_date]" id="delivery_date">
+                                                    name="giftCampaign[delivery_date]" id="delivery_date" required>
+                                                <div class="valid-feedback">
+                                                    Looks good!
+                                                </div>
                                         </div>
                                     </div>
                                     <div class="mb-3 d-flex justify-content-between">

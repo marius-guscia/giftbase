@@ -1,7 +1,7 @@
 <% layout('layouts/boilerplate')%>
     <div class="row mb-3">
-        <div class="col-6 offset-3">
-            <div class="card">
+        <div class="col-6">
+            <div class="card mb-3">
                 <img src="" class="card-img-top" alt="">
                 <div class="card-body">
                     <h3 class="card-title mb-3 text-center">
@@ -50,7 +50,6 @@
                 </ul>
                 <div class="card-body">
                     <a class="card-link btn btn-success" href="/giftcampaigns/<%=giftCampaign._id%>/edit">Edit</a>
-
                     <form class="d-inline" action="/giftCampaigns/<%=giftCampaign._id%>/?_method=DELETE" method="POST">
                         <button class="card-link btn btn-danger">Delete</button>
                     </form>
@@ -58,6 +57,38 @@
                 <div class="card-footer">
                 </div>
             </div>
+        </div>
+        <div class="mb-3 col-6">
+            <h2>Leave a Review</h2>
+            <form action="/giftcampaigns/<%=giftCampaign._id%>/reviews" method="POST" class="mb-3 validated-form"
+                novalidate>
+                <div class="mb-3">
+                    <label for="rating" class="form-label">Rating</label>
+                    <input class="form-range" name="review[rating]" type="range" min="1" max="5" id="rating">
+                </div>
+                <div class="mb-3">
+                    <label for="body" class="form-label">Review</label>
+                    <textarea name="review[body]" class="form-control" id="body" cols="30" rows="3" required></textarea>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <button class="btn btn-success">Submit</button>
+            </form>
+            <% for(let review of giftCampaign.reviews){ %>
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Rating: <%=review.rating%>
+                        </h5>
+                        <p class="card-text">Rating: <%=review.body%>
+                        </p>
+                        <form action="/giftcampaigns/<%=giftCampaign._id%>/reviews/<%=review._id%>?_method=DELETE"
+                            method="POST">
+                            <button class="btn btn-sm btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
+                <% } %>
         </div>
     </div>
 

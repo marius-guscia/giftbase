@@ -2,6 +2,8 @@
 const mongoose = require('mongoose');
 // Shortcut
 const Schema = mongoose.Schema;
+// Models
+const Review = require('./review');
 
 // Schema
 const GiftCampaignSchema = new Schema({
@@ -38,8 +40,25 @@ const GiftCampaignSchema = new Schema({
                 type: Number
             }
         }
+    ],
+    reviews: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Review'
+        }
     ]
+});
 
+// POST MW
+GiftCampaignSchema.post('findOneAndDelete', async function (document) {
+    // the giftCampaign that was deleted is passed in as an argument
+    if (document) {
+        await Review.deleteMany({
+            _id: {
+                $in: document.reviews
+            }
+        })
+    }
 });
 
 // Export
