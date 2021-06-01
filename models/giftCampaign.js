@@ -32,7 +32,6 @@ const GiftCampaignSchema = new Schema({
     contents: [
         {
             gift_item: {
-                // Reference to added GiftItems' IDs
                 type: Schema.Types.ObjectId,
                 ref: 'GiftItem'
             },
@@ -49,7 +48,7 @@ const GiftCampaignSchema = new Schema({
     ]
 });
 
-// POST MW
+// POST MW to remove Reviews of a deleted Gift Campaign
 GiftCampaignSchema.post('findOneAndDelete', async function (document) {
     // the giftCampaign that was deleted is passed in as an argument
     if (document) {

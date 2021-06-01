@@ -1,4 +1,6 @@
+// NPM
 const mongoose = require('mongoose');
+// Shortcut
 const Schema = mongoose.Schema;
 
 const ReviewSchema = new Schema({
@@ -9,6 +11,10 @@ const ReviewSchema = new Schema({
     rating: {
         type: Number,
         required: true
+    },
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
     }
 });
 

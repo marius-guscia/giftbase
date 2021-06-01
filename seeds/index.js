@@ -52,7 +52,8 @@ const seedCampaignDB = async () => {
             status: campaigns[i].status,
             dispatch_date: campaigns[i].dispatch_date,
             delivery_date: campaigns[i].delivery_date,
-            contents: []
+            contents: [],
+            reviews: []
         })
         for (let i = 1; i <= GIFT_ITEMS_IN_CAMPAIGN; i++) {
             const giftItem = giftItemsArray[randomNumber(GIFT_CAMPAIGN_QTY - 1)];
