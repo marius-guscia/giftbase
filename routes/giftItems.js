@@ -12,7 +12,7 @@ const { isLoggedIn, validateGiftItem } = require('../middleware')
 // GIFT ITEMS
 
 // Route for redering Gift Items
-router.get('/', catchAsync(async (req, res) => {
+router.get('/', isLoggedIn, catchAsync(async (req, res) => {
     const giftItems = await GiftItem.find({});
     res.render('giftitems/index', { giftItems })
 }))
@@ -21,41 +21,36 @@ router.get('/new', (req, res, next) => {
     res.render('giftitems/new')
 })
 // Route for submitting new Gift Item form
-router.post('/', validateGiftItem, catchAsync(async (req, res) => {
+router.post('/', isLoggedIn, validateGiftItem, catchAsync(async (req, res) => {
     const giftItem = new GiftItem(req.body.giftItem);
     await giftItem.save();
     res.redirect(`/giftitems/${giftItem._id}`)
 }))
 // Route for showing a Gift Item
-router.get('/:id', catchAsync(async (req, res) => {
+router.get('/:id', isLoggedIn, catchAsync(async (req, res) => {
     const giftItem = await GiftItem.findById(req.params.id)
     res.render('giftitems/show', { giftItem });
 }))
 // Route for redering edit Gift Item form
-router.get('/:id/edit', catchAsync(async (req, res) => {
+router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) => {
     const giftItem = await GiftItem.findById(req.params.id);
     res.render('giftitems/edit', { giftItem });
 }))
 // Route for submitting edit Gift Item form
 router.put('/:id', validateGiftItem, catchAsync(async (req, res) => {
     const { id: itemId } = req.params;
-    // BUG: NO ERROR IF you enter string 
-    const giftItem = await GiftItem.findByIdAndUpdate(itemId, { ...req.body.giftItem })
-    // const giftItem = await GiftItem.findById(itemId);
-    // giftItem.units_owned += parseInt(req.body.giftItem.units_added);
-    // await GiftItem.findByIdAndUpdate(itemId, { ...giftItem })
+    const giftItem = await GiftItem.findByIdAndUpdate(itemId, { ...req.body.giftItem });
     res.redirect(`/giftitems/${giftItem._id}`)
 }))
-// Route for deleting Gift Item form
-router.delete('/:id', catchAsync(async (req, res) => {
+// Route for deleting Gift Item
+router.delete('/:id', isLoggedIn, catchAsync(async (req, res) => {
     const { id: itemId } = req.params;
     await GiftItem.findByIdAndDelete(itemId);
     const giftCampaigns = await GiftCampaign.find({});
     for (let giftCampaign of giftCampaigns) {
         let index = 0;
         for (let content_item of giftCampaign.contents) {
-            // BUG should be ===
-            if (content_item.gift_item._id == itemId) {
+            if (content_item.gift_item._id.equals(itemId)) {
                 await GiftCampaign.findByIdAndUpdate(giftCampaign._id, { $pull: { contents: { _id: giftCampaign.contents[index]._id } } })
             }
             index++;

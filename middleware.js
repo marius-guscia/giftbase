@@ -1,5 +1,7 @@
 // Joi Schemas
-const { giftCampaignSchema, giftItemSchema, reviewSchema } = require('./schemas.js');
+const { giftCampaignSchema, giftItemSchema, reviewSchema, userSchema } = require('./schemas.js');
+// Utils
+const ExpressError = require('./utils/ExpressError');
 
 // Models
 const Review = require('./models/review');
@@ -13,6 +15,16 @@ module.exports.isLoggedIn = (req, res, next) => {
     next();
 }
 
+// JOI MW for User
+module.exports.validateUser = (req, res, next) => {
+    const { error } = userSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map(el => el.message).join(',');
+        throw new ExpressError(msg, 400);
+    } else {
+        next();
+    }
+}
 // JOI MW for Reviews
 module.exports.validateReview = (req, res, next) => {
     const { error } = reviewSchema.validate(req.body);

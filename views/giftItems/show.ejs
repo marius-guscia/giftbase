@@ -4,22 +4,37 @@
             <div class="card">
                 <img src="" class="card-img-top" alt="">
                 <div class="card-body">
-                    <h5 class="card-title">
+                    <h5 class="card-title text-center">
                         <%=giftItem.name%>
                     </h5>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Price: $<%=giftItem.unit_price%>
+                    <li class="list-group-item">
+
+                        <div class="d-flex justify-content-between">
+                            <div>Price:
+                            </div>
+                            <div> $<%=giftItem.unit_price%>
+                            </div>
+                        </div>
                     </li>
-                    <li class="list-group-item">In Stock: <%=giftItem.units_owned%>
+                    <li class="list-group-item">
+                        <div class="d-flex justify-content-between">
+                            <div>In Stock:</div>
+                            <div>
+                                <%=giftItem.units_owned%>
+                            </div>
+                        </div>
                     </li>
                 </ul>
                 <div class="card-body">
-
-                    <a class="card-link btn btn-success" href="/giftitems/<%=giftItem._id%>/edit">Edit</a>
-                    <form class="d-inline" action="/giftItems/<%=giftItem._id%>/?_method=DELETE" method="POST">
-                        <button class="card-link btn btn-danger">Delete</button>
-                    </form>
+                    <div class="d-flex justify-content-between">
+                        <a class="btn btn-outline-secondary" href="/giftitems/">Back</a>
+                        <form action="/giftItems/<%=giftItem._id%>/?_method=DELETE" method="POST">
+                            <button class="card-link btn btn-outline-danger">Delete</button>
+                        </form>
+                        <a class="card-link btn btn-outline-success" href="/giftitems/<%=giftItem._id%>/edit">Edit</a>
+                    </div>
                 </div>
                 <div class="card-footer">
                 </div>

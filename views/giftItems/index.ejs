@@ -1,21 +1,25 @@
 <% layout('layouts/boilerplate')%>
-    <h1>Gift Items</h1>
-    <a class="btn btn-success" href="/giftitems/new">New Item</a>
-    <div class="row mt-3">
-        <% for (let giftItem of giftItems) {%>
-            <div class="col-sm-6 col-md-4 col-lg-2">
-                <div class="card mb-3">
-                    <div class="row mb-3 text-center">
-                        <div class="card-body m-2">
-                            <h5 class="card-title">
-                                <%= giftItem.name%>
-                            </h5>
-                            <p class="card-text">
-                                Price: $<%= giftItem.unit_price%> <br>
-                                    In Stock: <%= giftItem.units_owned%><br>
-                            </p>
-                            <a class="btn btn-primary" href="/giftitems/<%=giftItem._id%>">View</a>
 
+    <div class="row align-items-center  mb-3">
+        <h1 class="col-10">Gift Items</h1>
+        <div class="col-2 text-end">
+            <a class="btn btn-outline-success" href="/giftitems/new">New Item</a>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <% for(let giftItem of giftItems) { %>
+            <div class="col-sm-6 col-md-6 col-lg-3">
+                <div class="card mb-3 container">
+                    <div class="card-body align-items-center row d-flex">
+                        <h6 class="card-title mb-0 col-7">
+                            <%=giftItem.name%>
+                        </h6>
+                        <!-- <p class="card-text mb-0 col-4">$<%=giftItem.unit_price%>
+                        </p> -->
+                        <div class="col-5  text-end">
+                            <a class="btn btn btn-outline-secondary d-inline"
+                                href="/giftitems/<%=giftItem._id%>">View</a>
                         </div>
                     </div>
                 </div>

@@ -1,34 +1,134 @@
 <% layout('layouts/boilerplate')%>
-    <h1>Gift Campaigns</h1>
-    <a class="btn btn-success" href="/giftcampaigns/new">New Campaign</a>
-    <div class="row mt-3">
-        <% for (let giftCampaign of giftCampaigns) {%>
-            <div class="col-sm-6 col-md-4 col-lg-3">
-                <div class="card mb-3">
-                    <div class="row mb-3">
-                        <div class="card-body m-2 text-center">
-                            <h5 class="card-title">
-                                <%= giftCampaign.name%>
-                            </h5>
-                            <p class="card-text">
-                                Status: <%= giftCampaign.status%>
-                            </p>
-                            <p class="card-text">
-                                <small class="text-muted">
-                                    Dispatch Date: <%= giftCampaign.dispatch_date.getFullYear()+ '/' +
-                                        (giftCampaign.dispatch_date.getMonth()+1)+ '/'
-                                        +(giftCampaign.dispatch_date.getDate())%>
-                                </small><br>
-                                <small class="text-muted">
-                                    Delivery Date: <%= giftCampaign.delivery_date.getFullYear()+ '/' +
-                                        (giftCampaign.delivery_date.getMonth()+1)+ '/'
-                                        +(giftCampaign.delivery_date.getDate())%>
-                                </small>
-                            </p>
-                            <a class="btn btn-primary" href="/giftcampaigns/<%=giftCampaign._id%>">View</a>
+    <% if(user.subscriptions.length>0 && user.subscriptions !==undefined) { %>
+        <h1>Subscriptions</h1>
+        <div class="row mt-3">
+            <% for (let giftCampaign of user.subscriptions) {%>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="card mb-3">
+                        <div class="row mb-3">
+                            <div class="card-body m-2 text-center">
+                                <h5 class="card-title">
+                                    <%= giftCampaign.name%>
+                                </h5>
+                                <p class="card-text">
+                                    Status: <%= giftCampaign.status%>
+                                </p>
+                                <p class="card-text">
+                                    <small class="text-muted">
+                                        Dispatch Date: <%= giftCampaign.dispatch_date.getFullYear()+ '/' +
+                                            (giftCampaign.dispatch_date.getMonth()+1)+ '/'
+                                            +(giftCampaign.dispatch_date.getDate())%>
+                                    </small><br>
+                                    <small class="text-muted">
+                                        Delivery Date: <%= giftCampaign.delivery_date.getFullYear()+ '/' +
+                                            (giftCampaign.delivery_date.getMonth()+1)+ '/'
+                                            +(giftCampaign.delivery_date.getDate())%>
+                                    </small>
+                                </p>
+                                <a class="btn btn-outline-secondary"
+                                    href="/giftcampaigns/<%=giftCampaign._id%>">View</a>
+                                <a class="btn btn-outline-danger"
+                                    href="/giftcampaigns/<%=giftCampaign._id%>/unsubscribe">Unsubscribe</a>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <% } %>
+        </div>
+        <% } %>
+
+            <div class="row align-items-center mb-3">
+                <h1 class="col-10">Active Gift Campaigns</h1>
+                <% if(currentUser.admin) { %>
+                    <div class="col-2 text-end">
+                        <a class="btn btn-outline-success" href="/giftcampaigns/new">New Campaign</a>
+                    </div>
             </div>
             <% } %>
-    </div>
+                <div class="row mt-3">
+                    <% for (let giftCampaign of giftCampaigns) {%>
+                        <% if(giftCampaign.delivery_date> Date.now()){%>
+                            <div class="col-sm-6 col-md-4 col-lg-3">
+                                <div class="card mb-3">
+                                    <div class="row mb-3">
+                                        <div class="card-body m-2 text-center">
+                                            <h5 class="card-title">
+                                                <%= giftCampaign.name%>
+                                            </h5>
+                                            <p class="card-text">
+                                                Status: <%= giftCampaign.status%>
+                                            </p>
+                                            <p class="card-text">
+                                                <small class="text-muted">
+                                                    Dispatch Date: <%= giftCampaign.dispatch_date.getFullYear()+ '/' +
+                                                        (giftCampaign.dispatch_date.getMonth()+1)+ '/'
+                                                        +(giftCampaign.dispatch_date.getDate())%>
+                                                </small><br>
+                                                <small class="text-muted">
+                                                    Delivery Date: <%= giftCampaign.delivery_date.getFullYear()+ '/' +
+                                                        (giftCampaign.delivery_date.getMonth()+1)+ '/'
+                                                        +(giftCampaign.delivery_date.getDate())%>
+                                                </small>
+                                            </p>
+                                            <a class="btn btn-outline-secondary"
+                                                href="/giftcampaigns/<%=giftCampaign._id%>">View</a>
+                                            <% if(!currentUser.admin) { %>
+                                                <a class="btn btn-outline-success"
+                                                    href="/giftcampaigns/<%=giftCampaign._id%>/subscribe">Subscribe</a>
+                                                <% } %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <% } %>
+                                <% } %>
+                </div>
+                <% if(giftCampaigns.some(giftCampaign=> Date.parse(giftCampaign.delivery_date)<Date.now())) { %>
+                        <% if(currentUser.admin){ %>
+                            <div class="mb-3">
+                                <h1>Past Gift Campaigns</h1>
+                            </div>
+                            <div class="row mt-3">
+                                <% for (let giftCampaign of giftCampaigns) {%>
+                                    <% if(Date.parse(giftCampaign.delivery_date)< Date.now()){%>
+                                        <div class="col-sm-6 col-md-4 col-lg-3">
+                                            <div class="card mb-3 bg-light">
+                                                <div class="row mb-3">
+                                                    <div class="card-body m-2 text-center">
+                                                        <h5 class="card-title">
+                                                            <%= giftCampaign.name%>
+                                                        </h5>
+                                                        </p>
+                                                        <p class="card-text">
+                                                        <p class="card-text">
+                                                            Status: <%= giftCampaign.status%>
+                                                        </p>
+                                                        <p class="card-text">
+                                                            <small class="text-muted">
+                                                                Dispatch Date: <%=
+                                                                    giftCampaign.dispatch_date.getFullYear()+ '/' +
+                                                                    (giftCampaign.dispatch_date.getMonth()+1)+ '/'
+                                                                    +(giftCampaign.dispatch_date.getDate())%>
+                                                            </small><br>
+                                                            <small class="text-muted">
+                                                                Delivery Date: <%=
+                                                                    giftCampaign.delivery_date.getFullYear()+ '/' +
+                                                                    (giftCampaign.delivery_date.getMonth()+1)+ '/'
+                                                                    +(giftCampaign.delivery_date.getDate())%>
+                                                            </small>
+                                                        </p>
+                                                        <a class="btn btn-outline-secondary"
+                                                            href="/giftcampaigns/<%=giftCampaign._id%>">View</a>
+                                                        <% if(!currentUser.admin) { %>
+                                                            <a class="btn btn-outline-success"
+                                                                href="/giftcampaigns/<%=giftCampaign._id%>/subscribe">Subscribe</a>
+                                                            <% } %>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <% } %>
+                                            <% } %>
+                            </div>
+                            <% } %>
+                                <% } %>

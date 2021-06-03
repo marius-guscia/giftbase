@@ -1,26 +1,104 @@
 <% layout('layouts/boilerplate')%>
-    <h1 class="mb-3">Register</h1>
-    <form action="/register" method="POST" class="validated-form" novalidate>
-        <div class="mb-3">
-            <label class="form-label" for="username">Username:</label>
-            <input class="form-control" type="text" id="email" name="username" required>
-            <div class="valid-feedback">
-                Looks good!
+    <div class="col-6 offset-3">
+        <h1 class="mb-3">Register</h1>
+        <form action="/register" method="POST" class="validated-form" novalidate>
+            <div class="mb-3">
+                <label class="form-label" for="email">Email:</label>
+                <input class="form-control" type="text" id="email" name="username" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
             </div>
-        </div>
-        <div class="mb-3">
-            <label class="form-label" for="email">Email:</label>
-            <input class="form-control" type="text" id="email" name="email" required>
-            <div class="valid-feedback">
-                Looks good!
+            <div class="mb-3">
+                <label class="form-label" for="password">Password:</label>
+                <input class="form-control" type="text" id="password" name="password" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
             </div>
-        </div>
-        <div class="mb-3">
-            <label class="form-label" type="text">Password:</label>
-            <input class="form-control" type="text" id="password" name="password" required>
-            <div class="valid-feedback">
-                Looks good!
+            <div class="d-none">
+                <input type="text" name="admin" value="false">
             </div>
-        </div>
-        <button class="btn btn-success">Register</button>
-    </form>
+            <!-- Hidden input for Fullname -->
+            <div class="d-none">
+                <label class="form-label" for="fullname"></label>
+                <input class="form-control" type="hidden" id="fullname" name="fullname">
+            </div>
+
+            <div class="mb-3 row">
+                <div class="col">
+                    <label class="form-label" for="firstname">First Name:</label>
+                    <input class="form-control" type="text" id="firstname" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <div class="col">
+                    <label class="form-label" for="lastname">Last Name:</label>
+                    <input class="form-control" type="text" id="lastname" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="phone">Phone Number:</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">+</span>
+                    <input type="text" class="form-control" id="phone" name="address[phone]" required
+                        aria-label="Username" aria-describedby="basic-addon1">
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-8">
+                    <label class="form-label" for="address">Address:</label>
+                    <input class="form-control" type="text" id=address" name="address[address]" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <div class="col-4">
+                    <label class="form-label" for="zip">Zip:</label>
+                    <input class="form-control" type="number" id="zip" name="address[zip]" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label" for="city">City:</label>
+                    <input class="form-control" type="text" id="city" name="address[city]" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" for="county">County:</label>
+                    <select id="county" class="form-control" id="county" name="address[county]" required>
+                        <option selected></option>
+                        <% for(let county of countyList) { %>
+                            <option>
+                                <%=county%>
+                            </option>
+                            <% } %>
+                    </select>
+                </div>
+            </div>
+            <button class="btn btn-outline-success mt-2" id="button">Register</button>
+        </form>
+    </div>
+
+    <script>
+        const button = document.getElementById('button');
+        const firstname = document.getElementById('firstname');
+        const lastname = document.getElementById('lastname');
+
+        button.onclick = function () {
+            const fullname = firstname.value + ' ' + lastname.value;
+            document.getElementById('fullname').value = fullname;
+        };
+    </script>

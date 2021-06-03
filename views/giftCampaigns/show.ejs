@@ -1,6 +1,8 @@
 <% layout('layouts/boilerplate')%>
+    <!-- Star rating CSS -->
+    <link rel="stylesheet" href="/stylesheets/stars.css">
     <div class="row mb-3">
-        <div class="col-6">
+        <div class="<%= currentUser.admin ? 'col-6 offset-3' : 'col-4 offset-2' %>">
             <div class="card mb-3">
                 <img src="" class="card-img-top" alt="">
                 <div class="card-body">
@@ -8,126 +10,198 @@
                         <%=giftCampaign.name%>
                     </h3>
                     <div class="card-text">
-                        <% for(let campaign of giftCampaign.contents) { %>
-                            <div class="card container mb-3">
-                                <div class="card-body row d-flex align-items-center">
-                                    <p class="card-title col-6 mb-0">
-                                        <%=campaign.gift_item.name%>
-                                    </p>
-                                    <p class="card-text text-end col-2 mb-0">
-                                        <%=campaign.gift_item_count%> x
-                                    </p>
-                                    <p class="card-text col-2 mb-0">
-                                        $<%=campaign.gift_item.unit_price%>
-                                    </p>
-                                    <form class="d-inline col-1"
-                                        action="/giftcampaigns/<%=giftCampaign._id%>/add?_method=PUT" method="POST">
-                                        <input hidden value="<%=campaign.gift_item._id%>" name="id" />
-                                        <button class="btn btn-success btn-sm"><i class="fas fa-plus"></i></button>
-                                    </form>
-                                    <form class="d-inline col-1"
-                                        action="/giftcampaigns/<%=giftCampaign._id%>/remove?_method=DELETE"
-                                        method="POST">
-                                        <input hidden value="<%=campaign.gift_item._id%>" name="id" />
-                                        <button class="btn btn-danger btn-sm"><i class="fas fa-minus"></i></button>
-                                    </form>
+                        <% let total=0 %>
+                            <% for(let campaign of giftCampaign.contents) { %>
+                                <div class="card container mb-3">
+                                    <div class="card-body row d-flex align-items-center">
+                                        <% if(currentUser.admin) { %>
+                                            <form class="d-inline col-1"
+                                                action="/giftcampaigns/<%=giftCampaign._id%>/add?_method=PUT"
+                                                method="POST">
+                                                <input hidden value="<%=campaign.gift_item._id%>" name="id" />
+                                                <button class="btn btn-outline-success btn-sm"><i
+                                                        class="fas fa-plus"></i></button>
+                                            </form>
+                                            <form class="d-inline col-1"
+                                                action="/giftcampaigns/<%=giftCampaign._id%>/remove?_method=DELETE"
+                                                method="POST">
+                                                <input hidden value="<%=campaign.gift_item._id%>" name="id" />
+                                                <button class="btn btn-outline-danger btn-sm"><i
+                                                        class="fas fa-minus"></i></button>
+                                            </form>
+                                            <% } %>
+                                                <p
+                                                    class="card-title <%= currentUser && currentUser.admin ? 'col-6' : 'col-7' %> mb-0">
+                                                    <%=campaign.gift_item.name%>
+                                                </p>
+                                                <p class="card-text text-end col-2 mb-0">
+                                                    <%=campaign.gift_item_count%> x
+                                                </p>
+                                                <p
+                                                    class="card-text <%= currentUser && currentUser.admin ? 'col-2' : 'col-3' %> mb-0">
+                                                    $<%=campaign.gift_item.unit_price%>
+                                                </p>
+                                    </div>
                                 </div>
-                            </div>
-                            <% } %>
+                                <% total +=campaign.gift_item_count*campaign.gift_item.unit_price%>
+                                    <% } %>
                     </div>
+                    <% if(currentUser.admin) { %>
+                        <div class="me-2">
+                            <h5 class="card-text me-5 text-end">Total: $<%=total.toFixed(2)%>
+                            </h5>
+                        </div>
+                        <% } %>
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">Status: <%=giftCampaign.status%>
                     </li>
-                    <li class="list-group-item text-muted">Dispatch Date: <%= (giftCampaign.dispatch_date.getMonth() +
-                            1) + '/' + giftCampaign.dispatch_date.getDate() + '/' +
-                            giftCampaign.dispatch_date.getFullYear()%>
-                    </li>
-                    <li class="list-group-item text-muted">Delivery Date:
-                        <%=(giftCampaign.delivery_date.getMonth() + 1) + '/' + giftCampaign.delivery_date.getDate()
-                            + '/' + giftCampaign.delivery_date.getFullYear() %>
-                    </li>
+                    <% if(currentUser.admin) { %>
+                        <% if(giftCampaign.delivery_date< Date.now()){%>
+                            <li class="list-group-item">
+                                Rating:
+                                <%const averageRating=giftCampaign.reviews.reduce((sum, review)=>sum+review.rating, 0)
+                                    /(giftCampaign.reviews.length)%>
+                                    <%=averageRating>0 ? averageRating : 'Not rated'%>
+                            </li>
+                            <% } %>
+                                <% } %>
+                                    <li class="list-group-item text-muted">Dispatch Date: <%=
+                                            (giftCampaign.dispatch_date.getMonth() + 1) + '/' +
+                                            giftCampaign.dispatch_date.getDate() + '/' +
+                                            giftCampaign.dispatch_date.getFullYear()%>
+                                    </li>
+                                    <li class="list-group-item text-muted">Delivery Date:
+                                        <%=(giftCampaign.delivery_date.getMonth() + 1) + '/' +
+                                            giftCampaign.delivery_date.getDate() + '/' +
+                                            giftCampaign.delivery_date.getFullYear() %>
+                                    </li>
                 </ul>
-                <div class="card-body">
-                    <a class="card-link btn btn-success" href="/giftcampaigns/<%=giftCampaign._id%>/edit">Edit</a>
-                    <form class="d-inline" action="/giftCampaigns/<%=giftCampaign._id%>/?_method=DELETE" method="POST">
-                        <button class="card-link btn btn-danger">Delete</button>
-                    </form>
-                </div>
-                <div class="card-footer">
-                </div>
+                <% if(currentUser.admin) { %>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <a class="btn btn-outline-secondary" href="/giftcampaigns/">Back</a>
+                            <form class="d-inline" action="/giftcampaigns/<%=giftCampaign._id%>/?_method=DELETE"
+                                method="POST">
+                                <button class="card-link btn btn-outline-danger">Delete</button>
+                            </form>
+                            <a class="card-link btn btn-outline-success"
+                                href="/giftcampaigns/<%=giftCampaign._id%>/edit">Edit</a>
+                        </div>
+                    </div>
+                    <% } %>
+                        <div class="card-footer">
+                        </div>
             </div>
         </div>
-        <div class="mb-3 col-6">
-            <% if(currentUser) { %>
+        <% if(!currentUser.admin) { %>
+            <div class="mb-3 col-4">
                 <h2>Leave a Review</h2>
                 <form action="/giftcampaigns/<%=giftCampaign._id%>/reviews" method="POST" class="mb-3 validated-form"
                     novalidate>
                     <div class="mb-3">
-                        <label for="rating" class="form-label">Rating</label>
-                        <input class="form-range" name="review[rating]" type="range" min="1" max="5" id="rating">
+                        <fieldset class="starability-basic">
+                            <legend>Rating:</legend>
+                            <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="3"
+                                checked aria-label="No rating." />
+                            <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+                            <label for="first-rate1" title="Terrible">1 star</label>
+                            <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                            <label for="first-rate2" title="Not good">2 stars</label>
+                            <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                            <label for="first-rate3" title="Average">3 stars</label>
+                            <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+                            <label for="first-rate4" title="Very good">4 stars</label>
+                            <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+                            <label for="first-rate5" title="Amazing">5 stars</label>
+                        </fieldset>
+
                     </div>
                     <div class="mb-3">
-                        <label for="body" class="form-label">Review</label>
+                        <label for="body" class="form-label">Review Text:</label>
                         <textarea name="review[body]" class="form-control" id="body" cols="30" rows="3"
                             required></textarea>
                         <div class="valid-feedback">
                             Looks good!
                         </div>
                     </div>
-                    <button class="btn btn-success">Submit</button>
+                    <button class="btn btn-outline-success">Submit</button>
                 </form>
                 <% } %>
-                    <% for(let review of giftCampaign.reviews){ %>
-                        <div class="card mb-3">
-                            <div class="card-body">
-                                <h5 class="card-title">Rating: <%=review.rating%>
-                                </h5>
-                                <h6 class="card-subtitle text-muted mb-1">
-                                    <%=review.author.username%>
-                                </h6>
-                                <p class="card-text">
-                                    <%=review.body%>
-                                </p>
-                                <form
-                                    action="/giftcampaigns/<%=giftCampaign._id%>/reviews/<%=review._id%>?_method=DELETE"
-                                    method="POST">
-                                    <% if(currentUser && review.author.equals(currentUser._id)) { %>
-                                        <button class="btn btn-sm btn-danger">Delete</button>
-                                        <%}%>
-                                </form>
+
+                    <% if(currentUser.admin) { %>
+                        <div class="col-2">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h4 class="card-subtitle mb-2">
+                                        Subscribers:
+                                    </h4>
+                                    <% for(let subscriber of giftCampaign.subscribers){ %>
+                                        <p class="card-text">
+                                            <%=subscriber.fullname%>
+                                        </p>
+                                        <% } %>
+                                            <div class="text-center">
+                                                <button class="btn btn-outline-success">Export List</button>
+                                            </div>
+                                </div>
                             </div>
                         </div>
                         <% } %>
-        </div>
+            </div>
     </div>
 
-    <h3 class="mb-3">Add Gift Items:</h3>
-    <div class="row mb-3">
-        <% for(let giftItem of giftItems) { %>
-            <div class="col-sm-6 col-md-4 col-lg-2">
-                <div class="card mb-3">
-                    <img src="" class="card-img-top" alt="">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">
-                            <%=giftItem.name%>
-                        </h5>
-                        <p class="card-text">Price: $<%=giftItem.unit_price%>
-                        </p>
-                        <div>
-                            <form class="d-inline" action="/giftcampaigns/<%=giftCampaign._id%>/add?_method=PUT"
-                                method="POST">
-                                <input hidden value="<%=giftItem._id%>" name="id" />
-                                <button class="btn btn-success"><i class="fas fa-plus"></i></button>
-                            </form>
-                            <form class="d-inline" action="/giftcampaigns/<%=giftCampaign._id%>/remove?_method=DELETE"
-                                method="POST">
-                                <input hidden value="<%=giftItem._id%>" name="id" />
-                                <button class="btn btn-danger d-none"><i class="fas fa-minus"></i></button>
-                            </form>
-                        </div>
-                    </div>
+    <div class="<%= currentUser.admin ? '' : ' col-8 offset-2' %>">
+        <% for(let review of giftCampaign.reviews){ %>
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-subtitle mb-2">
+                        <%=review.author.fullname%>
+                    </h5>
+                    <p class="starability-result" data-rating="<%=review.rating%>">
+                        Rated: <%=review.rating%> stars
+                    </p>
+                    <p class="card-text">
+                        Review: <%=review.body%>
+                    </p>
+                    <form action="/giftcampaigns/<%=giftCampaign._id%>/reviews/<%=review._id%>?_method=DELETE"
+                        method="POST">
+                        <% if(review.author.equals(currentUser._id)) { %>
+                            <button class="btn btn-sm btn-outline-danger">Delete</button>
+                            <%}%>
+                    </form>
                 </div>
             </div>
             <% } %>
     </div>
+
+    <% if(currentUser.admin) { %>
+        <h3 class="mb-3">Add Gift Items:</h3>
+        <div class="row mb-3">
+            <% for(let giftItem of giftItems) { %>
+                <div class="col-sm-6 col-md-6 col-lg-3">
+                    <div class="card mb-3 container">
+                        <div class="card-body align-items-center row d-flex">
+                            <h6 class="card-title mb-0 col-6">
+                                <%=giftItem.name%>
+                            </h6>
+                            <p class="card-text mb-0 col-4">$<%=giftItem.unit_price%>
+                            </p>
+                            <div class=" col-2">
+                                <form class="d-inline" action="/giftcampaigns/<%=giftCampaign._id%>/add?_method=PUT"
+                                    method="POST">
+                                    <input hidden value="<%=giftItem._id%>" name="id" />
+                                    <button class="btn btn-outline-success btn-sm"><i class="fas fa-plus"></i></button>
+                                </form>
+                                <form class="d-inline"
+                                    action="/giftcampaigns/<%=giftCampaign._id%>/remove?_method=DELETE" method="POST">
+                                    <input hidden value="<%=giftItem._id%>" name="id" />
+                                    <button class="btn btn-outline-danger d-none"><i class="fas fa-minus"></i></button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+        </div>
+        <% } %>

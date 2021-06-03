@@ -78,12 +78,6 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-// app.get('/fakeUser', async (req, res) => {
-//     const user = new User({ email: 'marius@marius.lt', username: 'marius' })
-//     const newUser = await User.register(user, 'marius');
-//     res.send(newUser);
-// })
-
 // Setting Locals
 app.use((req, res, next) => {
     // For hiding nav login/logout links
@@ -99,7 +93,7 @@ app.use('/', userRoutes);
 
 // Route for redering HOME PAGE
 app.get('/', (req, res) => {
-    res.render('index')
+    res.render('home')
 })
 
 // 404 Error

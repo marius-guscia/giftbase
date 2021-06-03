@@ -25,12 +25,12 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label" for="units_owned">In Stock:</label>
+                        <label class="form-label">In Stock:</label>
                         <div class="input-group mb-3">
                             <span class="input-group-text">#</span>
                             <input class="form-control" type="text" id="units_owned" name="giftItem[units_owned]"
                                 placeholder="0" aria-label="units_owned" aria-describedby="units_owned-label" required
-                                value="0">
+                                value="<%=giftItem.units_owned%>">
                             <div class="valid-feedback">
                                 Looks good!
                             </div>
@@ -38,8 +38,8 @@
                     </div>
             </div>
             <div class="mb-3 d-flex justify-content-between">
-                <a class="btn btn-secondary" href="/giftitems/<%=giftItem._id%>">Back</a>
-                <button class="btn btn-success">Edit</button>
+                <a class="btn btn-outline-secondary" href="/giftitems/<%=giftItem._id%>">Back</a>
+                <button class="btn btn-outline-success">Edit</button>
             </div>
             </form>
         </div>

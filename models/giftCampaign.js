@@ -24,11 +24,13 @@ const GiftCampaignSchema = new Schema({
         type: Date,
         required: true
     },
-    // subscribers: {
-    //     // Reference to subscribed Users' IDs
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'User'
-    // },
+    subscribers: [
+        {
+            // Reference to subscribed Users' IDs
+            type: Schema.Types.ObjectId,
+            ref: 'User'
+        }
+    ],
     contents: [
         {
             gift_item: {

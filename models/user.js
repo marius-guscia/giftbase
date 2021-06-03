@@ -1,6 +1,8 @@
 // NPM
 const mongoose = require('mongoose');
 const passportLocalMongoose = require('passport-local-mongoose');
+// Validation Data
+const countyList = require('../public/validationData/countyList')
 // Shortcut
 const Schema = mongoose.Schema;
 
@@ -10,17 +12,46 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
-    email: {
+    admin: {
+        type: Boolean,
+        required: true
+    },
+    fullname: {
         type: String,
         required: true
     },
-    // address: {
-    //     type: String,
-    //     required: true
-    // }
+    address: {
+        phone: {
+            type: Number,
+            required: true
+        },
+        address: {
+            type: String,
+            required: true
+        },
+        zip: {
+            type: Number,
+            required: true
+        },
+        city: {
+            type: String,
+            required: true
+        },
+        county: {
+            type: String,
+            enum: countyList,
+            required: true
+        }
+    },
+    subscriptions: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'GiftCampaign'
+        }
+    ]
 });
 
-// Passport & allowing email as a username
+// Passport
 UserSchema.plugin(passportLocalMongoose);
 
 // Export

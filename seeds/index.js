@@ -5,10 +5,15 @@ const GIFT_ITEMS_IN_CAMPAIGN = 3;
 
 // NPM
 const mongoose = require('mongoose');
+const passport = require('passport');
+// Models
 const GiftItem = require('../models/giftItem');
 const GiftCampaign = require('../models/giftCampaign');
+const User = require('../models/user');
+// Data
 const campaigns = require('./campaigns');
 const items = require('./items');
+
 
 // Connecting to mongoose
 mongoose.connect('mongodb://localhost:27017/giftbase', {
@@ -53,7 +58,8 @@ const seedCampaignDB = async () => {
             dispatch_date: campaigns[i].dispatch_date,
             delivery_date: campaigns[i].delivery_date,
             contents: [],
-            reviews: []
+            reviews: [],
+            subscribers: []
         })
         for (let i = 1; i <= GIFT_ITEMS_IN_CAMPAIGN; i++) {
             const giftItem = giftItemsArray[randomNumber(GIFT_CAMPAIGN_QTY - 1)];
@@ -65,9 +71,44 @@ const seedCampaignDB = async () => {
     console.log('Gift Campaigns seeded.');
 }
 
+// Seeding function
+const seedUser = async () => {
+    await User.deleteMany({});
+    // admin
+    const user = new User({
+        username: 'admin@gmail.com',
+        admin: true,
+        fullname: 'Admin Admin',
+        address: {
+            phone: '37000000000',
+            address: 'Gedimino g. 69 - 404',
+            zip: '09100',
+            city: 'Vilnius',
+            county: 'Vilniaus m.'
+        }
+    });
+    await User.register(user, 'admin');
+    // user
+    const user1 = new User({
+        username: 'jim@gmail.com',
+        admin: false,
+        fullname: 'Jim Jones',
+        address: {
+            phone: '37000000000',
+            address: 'Jim Street 5',
+            zip: '06000',
+            city: 'Kaunas',
+            county: 'Kauno m.'
+        }
+    });
+    await User.register(user1, 'jim');
+    console.log('Users seeded.')
+}
+
 seedItemDB();
 setTimeout(() => { seedCampaignDB() }, 500);
+setTimeout(() => { seedUser() }, 700);
 
 setTimeout(() => {
     process.exit(0)
-}, 1000);
+}, 1200);
